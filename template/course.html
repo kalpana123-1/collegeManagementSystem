@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=\, initial-scale=1.0">
+    <title>Courses</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: rgb(32, 189, 189);
+        }
+
+        table {
+            padding-top: 2%;
+        }
+
+        th,
+        td {
+            padding-left: 10px;
+            padding-right: 32px;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Course Details</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Course No</th>
+                <th>Course Name</th>
+                <th>Description</th>
+                <th>Course Mode</th>
+                <th>Mode Type</th>
+                <th>Credits</th>
+                <th>Total Fee</th>
+                <th>Created Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>{{ course[0] }}</td>
+                <td>{{ course[1] }}</td>
+                <td>{{ course[2] }}</td>
+                <td>{{ course[3] }}</td>
+                <td>{{ course[4] }}</td>
+                <td>{{ course[5] }}</td>
+                <td>{{ course[6] }}</td>
+                <td>{{ course[7] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

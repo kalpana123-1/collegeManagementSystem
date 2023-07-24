@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Students Details</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: rgb(32, 189, 189);
+        }
+
+        table {
+            padding-top: 2%;
+        }
+
+        th,
+        td {
+            padding-left: 10px;
+            padding-right: 32px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Staff Details</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Staff Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{ student[0] }}</td>
+                <td>{{ student[1] }}</td>
+                <td>{{ student[2] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>

@@ -28,10 +28,8 @@ select * from department;
 -- Select Department", "Mechanical Engineering", "Computer Science", "Information Technology", "Electrical Engineering",
 -- "Civil Engineering", "Computer Application
 
-
-
-
-
-
+use managementSystem;
+select * from department;
+select * from course;
 
 

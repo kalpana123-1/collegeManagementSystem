@@ -6,34 +6,34 @@ mydb = mysql.connector.connect(
     user="root",
     password="root",
     database="managementsystem",
-    port="3306"
+    port="3306",
 )
 
 print(mydb)
 mycursor = mydb.cursor()
 
-app = Flask(__name__, template_folder='template')
+app = Flask(__name__, template_folder="template")
 
 
 # Home Page
-@app.route('/')
+@app.route("/")
 def login():
-    return render_template('login.html')
+    return render_template("login.html")
 
 
 # Login Page
-@app.route('/login', methods=['POST'])
+@app.route("/login", methods=["POST"])
 def login_post():
-    username = request.form['username']
-    password = request.form['password']
+    username = request.form["username"]
+    password = request.form["password"]
     data = []
     data.append(username)
     data.append(password)
     myresult = userValidate(data)
-    if (len(myresult) > 0):
-        return render_template('index.html', myresult=myresult)
+    if len(myresult) > 0:
+        return render_template("index.html", myresult=myresult)
     else:
-        return render_template('login.html', myresult=myresult)
+        return render_template("login.html", myresult=myresult)
 
 
 def userValidate(data):
@@ -44,78 +44,97 @@ def userValidate(data):
 
 
 # Course Page
-@app.route('/courses')
+@app.route("/courses")
 def courses():
-    mycursor.execute("select c.id, c.name, c.description, cm.name as courseModeName, cm.mainType as courseMainType, c.totalCredits, c.totalFee, date(c.createdDate) from course c left join courseMode cm on c.courseModeId = cm.id;")
+    mycursor.execute(
+        "select c.id, c.name, c.description, cm.name as courseModeName, cm.mainType as courseMainType, c.totalCredits, c.totalFee, date(c.createdDate) from course c left join courseMode cm on c.courseModeId = cm.id;"
+    )
     courses = mycursor.fetchall()
-    return render_template('course.html', courses=courses)
+    return render_template("course.html", courses=courses)
 
 
 def getCourseMode():
     sql = "SELECT * FROM coursemode"
     mycursor.execute(sql)
     myresult = mycursor.fetchall()
-    return (myresult)
+    return myresult
+
 
 # Add a new course
 
 
-@app.route('/add_course', methods=['GET', 'POST'])
+@app.route("/add_course", methods=["GET", "POST"])
 def add_course():
-    if request.method == 'POST':
+    if request.method == "POST":
         details = request.form
         print(details)
-        course_name = details['course_name']
-        description = details['description']
-        credit = details['credit']
-        fee = details['fee']
+        course_name = details["course_name"]
+        description = details["description"]
+        credit = details["credit"]
+        fee = details["fee"]
         data = [course_name, description, credit, fee]
         sql = "INSERT INTO course(name, description, totalCredits, totalFee) VALUES (%s, %s, %s, %s)"
         mycursor.execute(sql, data)
-        return redirect('/courses')
-    return render_template('add_course.html')
+        return redirect("/courses")
+    return render_template("add_course.html")
 
 
 # Display all students
-@app.route('/students')
+@app.route("/students")
 def students():
-    mycursor.execute('SELECT p.*, a.* FROM person p left join address a on a.id = p.addressId where p.isStudent = 1')
+    mycursor.execute(
+        "SELECT p.*, a.* FROM person p left join address a on a.id = p.addressId where p.isStudent = 1"
+    )
     students = mycursor.fetchall()
     mycursor.close()
     print(students)
-    return render_template('students.html', students=students)
+    return render_template("students.html", students=students)
 
 
 # Add a new student
-@app.route('/add_student', methods=['GET', 'POST'])
+@app.route("/add_student", methods=["GET", "POST"])
 def add_student():
-    if request.method == 'POST':
+    if request.method == "POST":
         details = request.form
-        first_name = details['first_name']
-        last_name = details['last_name']
-        mycursor.execute("INSERT INTO student(first_name, last_name) VALUES (%s, %s)", (first_name, last_name))
-        return redirect('/students')
-    return render_template('add_student.html')
+        first_name = details["first_name"]
+        last_name = details["last_name"]
+        address = []
+        addressResult = mycursor.execute(
+            "INSERT INTO `address` (`addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`) VALUES (%s, %s, %d, %s, %d, %s, %s)",
+            (address),
+        )
+        print(addressResult)
+        mycursor.execute(
+            "INSERT INTO student(first_name, last_name) VALUES (%s, %s)",
+            (first_name, last_name),
+        )
+        return redirect("/students")
+    return render_template("add_student.html")
 
 
-@app.route('/staff')
+@app.route("/staff")
 def staff():
-    mycursor.execute('SELECT p.*, a.* FROM person p left join address a on a.id = p.addressId where p.isStudent = 0')
+    mycursor.execute(
+        "SELECT p.*, a.* FROM person p left join address a on a.id = p.addressId where p.isStudent = 0"
+    )
     students = mycursor.fetchall()
     mycursor.close()
-    return render_template('staff.html', students=students)
+    return render_template("staff.html", students=students)
 
 
-@app.route('/add_staff', methods=['GET', 'POST'])
+@app.route("/add_staff", methods=["GET", "POST"])
 def add_staff():
-    if request.method == 'POST':
+    if request.method == "POST":
         details = request.form
-        first_name = details['first_name']
-        last_name = details['last_name']
-        mycursor.execute("INSERT INTO student(first_name, last_name) VALUES (%s, %s)", (first_name, last_name))
-        return redirect('/students')
-    return render_template('add_staff.html')
+        first_name = details["first_name"]
+        last_name = details["last_name"]
+        mycursor.execute(
+            "INSERT INTO student(first_name, last_name) VALUES (%s, %s)",
+            (first_name, last_name),
+        )
+        return redirect("/students")
+    return render_template("add_staff.html")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)

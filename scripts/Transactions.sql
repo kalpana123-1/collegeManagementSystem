@@ -33,3 +33,5 @@ select * from department;
 select * from course;
 
 
+INSERT INTO `managementsystem`.`course` (`courseModeId`, `name`, `duration`, `description`, `totalCredits`, `totalFee`) VALUES ('1', 'Bachelor of Technology', '4', 'This course is available for Candidates in various specializations', '150', '220000');
+UPDATE `managementsystem`.`course` SET `duration` = '1' WHERE (`id` = '1');

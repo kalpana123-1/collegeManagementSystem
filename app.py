@@ -11,6 +11,7 @@ mydb = mysql.connector.connect(
 
 print(mydb)
 mycursor = mydb.cursor()
+print(mycursor)
 
 app = Flask(__name__, template_folder="template")
 
@@ -38,25 +39,28 @@ def login_post():
 
 def userValidate(data):
     sql = "SELECT * FROM person where email = %s and password1 = %s and role = 'admin'"
-    mycursor.execute(sql, data)
-    myresult = mycursor.fetchall()
+    mycursor1 = mydb.cursor()
+    mycursor1.execute(sql, data)
+    myresult = mycursor1.fetchall()
     return myresult
 
 
 # Course Page
 @app.route("/courses")
 def courses():
-    mycursor.execute(
-        "select c.id, c.name, c.description, cm.name as courseModeName, cm.mainType as courseMainType, c.totalCredits, c.totalFee, date(c.createdDate) from course c left join courseMode cm on c.courseModeId = cm.id;"  # noqa: E501
+    mycursor1 = mydb.cursor()
+    mycursor1.execute(
+        "select c.id, c.name, c.description, cm.name as courseModeName, cm.mainType as courseMainType, c.totalCredits, c.totalFee, date(c.createdDate) from course c left join courseMode cm on c.courseModeId = cm.id;"
     )
-    courses = mycursor.fetchall()
+    courses = mycursor1.fetchall()
     return render_template("course.html", courses=courses)
 
 
 def getCourseMode():
     sql = "SELECT * FROM coursemode"
-    mycursor.execute(sql)
-    myresult = mycursor.fetchall()
+    mycursor1 = mydb.cursor()
+    mycursor1.execute(sql)
+    myresult = mycursor1.fetchall()
     return myresult
 
 
@@ -73,8 +77,9 @@ def add_course():
         credit = details["credit"]
         fee = details["fee"]
         data = [course_name, description, credit, fee]
-        sql = "INSERT INTO course(name, description, totalCredits, totalFee) VALUES (%s, %s, %s, %s)"  # noqa: E501
-        mycursor.execute(sql, data)
+        sql = "INSERT INTO course(name, description, totalCredits, totalFee) VALUES (%s, %s, %s, %s)"
+        mycursor1 = mydb.cursor()
+        mycursor1.execute(sql, data)
         return redirect("/courses")
     return render_template("add_course.html")
 
@@ -82,15 +87,14 @@ def add_course():
 # Display all students
 @app.route("/students")
 def students():
-    mycursor.execute(
-        "SELECT p.*, a.* FROM person p left join address a on a.id = p.addressId where p.isStudent = 1"  # noqa: E501
+    mycursor1 = mydb.cursor()
+    mycursor1.execute(
+        "select p.firstName, p.lastName, p.email, p.password1, p.phone, p.dob, p.emergencyContact, p.bloodGroup, ad.addressLine1, ad.addressLine2, ad.streetNo, ad.city, ad.pinCode, ad.state, ad.country from person p left join address ad on p.addressId = ad.id where p.isStudent = 1"
     )
-    students = mycursor.fetchall()
-    mycursor.close()
+    students = mycursor1.fetchall()
+    mycursor1.close()
     print(students)
     return render_template("students.html", students=students)
-
-
 
 
 # Add a new student
@@ -110,12 +114,13 @@ def add_student():
         # address deatils
         addressLine1 = details["addressLine1"]
         address.push(addressLine1)
-        addressResult = mycursor.execute(
-            "INSERT INTO `address` (`addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`) VALUES (%s, %s, %d, %s, %d, %s, %s)",  # noqa: E501
+        mycursor1 = mydb.cursor()
+        addressResult = mycursor1.execute(
+            "INSERT INTO `address` (`addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`) VALUES (%s, %s, %s, %s, %s, %s, %s)",
             (address),
         )
         print(addressResult)
-        mycursor.execute(
+        mycursor1.execute(
             "INSERT INTO student(first_name, last_name) VALUES (%s, %s)",
             (first_name, last_name),
         )
@@ -125,11 +130,12 @@ def add_student():
 
 @app.route("/staff")
 def staff():
-    mycursor.execute(
-        "SELECT p.*, a.* FROM person p left join address a on a.id = p.addressId where p.isStudent = 0"  # noqa: E501
+    mycursor1 = mydb.cursor()
+    mycursor1.execute(
+        "select p.firstName, p.lastName, p.email, p.password1, p.phone, p.dob, p.emergencyContact, p.bloodGroup, ad.addressLine1, ad.addressLine2, ad.streetNo, ad.city, ad.pinCode, ad.state, ad.country from person p left join address ad on p.addressId = ad.id where p.isStudent = 0"
     )
-    students = mycursor.fetchall()
-    mycursor.close()
+    students = mycursor1.fetchall()
+    mycursor1.close()
     return render_template("staff.html", students=students)
 
 
@@ -139,7 +145,8 @@ def add_staff():
         details = request.form
         first_name = details["first_name"]
         last_name = details["last_name"]
-        mycursor.execute(
+        mycursor1 = mydb.cursor()
+        mycursor1.execute(
             "INSERT INTO student(first_name, last_name) VALUES (%s, %s)",
             (first_name, last_name),
         )

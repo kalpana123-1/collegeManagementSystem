@@ -49,3 +49,7 @@ INSERT INTO `managementsystem`.`address` (`addressLine1`, `addressLine2`, `stree
 INSERT INTO `managementsystem`.`address` (`addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`) VALUES ('Market road', 'KR market', '6', 'Bangalore', '263547', 'Bangalore', 'India');
 INSERT INTO `managementsystem`.`address` (`addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`) VALUES ('Food Street', 'Vijaya nagara', '5', 'Bangalore', '247582', 'Bangalore', 'India');
 
+select p.firstName, p.lastName, p.email, p.password1, p.phone, p.dob, p.emergencyContact, p.bloodGroup, ad.addressLine1, ad.addressLine2, ad.streetNo, ad.city, ad.pinCode, ad.state, ad.country from person p left join address ad on p.addressId = ad.id where p.isStudent = 1;
+
+
+

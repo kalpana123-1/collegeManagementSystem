@@ -12,25 +12,37 @@
         }
 
         table {
-            padding-top: 2%;
+            margin-top: 3%;
         }
 
         th,
         td {
             padding-left: 10px;
-            padding-right: 32px;
+            padding-right: 50px;
         }
     </style>
 </head>
-
+<!-- ad.city, ad.pinCode, ad.state, ad.country -->
 <body>
     <h1>Student Details</h1>
-    <table>
+    <table border="1 black solid">
         <thead>
             <tr>
-                <th>Student Id</th>
                 <th>First Name</th>
                 <th>Last Name</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Blood Group</th>
+                <th>Date of Birth</th>
+                <th>Phone Number</th>
+                <th>Emergency Contact</th>
+                <th>Address Line 1</th>
+                <th>Address Line 2</th>
+                <th>Street No</th>
+                <th>City</th>
+                <th>State</th>
+                <th>Country</th>
+                <th>Pincode</th>
             </tr>
         </thead>
         <tbody>
@@ -39,6 +51,18 @@
                 <td>{{ student[0] }}</td>
                 <td>{{ student[1] }}</td>
                 <td>{{ student[2] }}</td>
+                <td>{{ student[3] }}</td>
+                <td>{{ student[7] }}</td>
+                <td>{{ student[5] }}</td>
+                <td>{{ student[4] }}</td>
+                <td>{{ student[6] }}</td>
+                <td>{{ student[8] }}</td>
+                <td>{{ student[9] }}</td>
+                <td>{{ student[10] }}</td>
+                <td>{{ student[11] }}</td>
+                <td>{{ student[13] }}</td>
+                <td>{{ student[14] }}</td>
+                <td>{{ student[12] }}</td>
             </tr>
             {% endfor %}
         </tbody>

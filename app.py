@@ -47,7 +47,7 @@ def userValidate(data):
 @app.route("/courses")
 def courses():
     mycursor.execute(
-        "select c.id, c.name, c.description, cm.name as courseModeName, cm.mainType as courseMainType, c.totalCredits, c.totalFee, date(c.createdDate) from course c left join courseMode cm on c.courseModeId = cm.id;"
+        "select c.id, c.name, c.description, cm.name as courseModeName, cm.mainType as courseMainType, c.totalCredits, c.totalFee, date(c.createdDate) from course c left join courseMode cm on c.courseModeId = cm.id;"  # noqa: E501
     )
     courses = mycursor.fetchall()
     return render_template("course.html", courses=courses)
@@ -73,7 +73,7 @@ def add_course():
         credit = details["credit"]
         fee = details["fee"]
         data = [course_name, description, credit, fee]
-        sql = "INSERT INTO course(name, description, totalCredits, totalFee) VALUES (%s, %s, %s, %s)"
+        sql = "INSERT INTO course(name, description, totalCredits, totalFee) VALUES (%s, %s, %s, %s)"  # noqa: E501
         mycursor.execute(sql, data)
         return redirect("/courses")
     return render_template("add_course.html")
@@ -83,7 +83,7 @@ def add_course():
 @app.route("/students")
 def students():
     mycursor.execute(
-        "SELECT p.*, a.* FROM person p left join address a on a.id = p.addressId where p.isStudent = 1"
+        "SELECT p.*, a.* FROM person p left join address a on a.id = p.addressId where p.isStudent = 1"  # noqa: E501
     )
     students = mycursor.fetchall()
     mycursor.close()
@@ -91,16 +91,27 @@ def students():
     return render_template("students.html", students=students)
 
 
+
+
 # Add a new student
 @app.route("/add_student", methods=["GET", "POST"])
 def add_student():
     if request.method == "POST":
         details = request.form
+        address = [], detail = []
+        # student details
         first_name = details["first_name"]
         last_name = details["last_name"]
-        address = []
+        email = details["email"]
+        phone = details["phone"]
+        blood = details["blood"]
+        emergency = details["emergency"]
+        detail.push(first_name, last_name, email, phone, blood, emergency)
+        # address deatils
+        addressLine1 = details["addressLine1"]
+        address.push(addressLine1)
         addressResult = mycursor.execute(
-            "INSERT INTO `address` (`addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`) VALUES (%s, %s, %d, %s, %d, %s, %s)",
+            "INSERT INTO `address` (`addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`) VALUES (%s, %s, %d, %s, %d, %s, %s)",  # noqa: E501
             (address),
         )
         print(addressResult)
@@ -115,7 +126,7 @@ def add_student():
 @app.route("/staff")
 def staff():
     mycursor.execute(
-        "SELECT p.*, a.* FROM person p left join address a on a.id = p.addressId where p.isStudent = 0"
+        "SELECT p.*, a.* FROM person p left join address a on a.id = p.addressId where p.isStudent = 0"  # noqa: E501
     )
     students = mycursor.fetchall()
     mycursor.close()

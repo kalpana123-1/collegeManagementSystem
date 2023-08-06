@@ -35,3 +35,17 @@ select * from course;
 
 INSERT INTO `managementsystem`.`course` (`courseModeId`, `name`, `duration`, `description`, `totalCredits`, `totalFee`) VALUES ('1', 'Bachelor of Technology', '4', 'This course is available for Candidates in various specializations', '150', '220000');
 UPDATE `managementsystem`.`course` SET `duration` = '1' WHERE (`id` = '1');
+select * from address;
+
+INSERT INTO `managementsystem`.`address` (`addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`) VALUES ('3rd Main Road', 'JP Nagar', '3', 'Bangalore', '265281', 'Karnataka', 'India');
+INSERT INTO `managementsystem`.`address` (`id`, `addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`, `createdDate`, `modifiedDate`) VALUES (NULL, '1 st stage', 'BTM', '1', 'Bangalore', '456732', 'Karnataka', 'India', '2023-07-09 07:33:41', '2023-07-09 07:33:41');
+INSERT INTO `managementsystem`.`address` (`id`, `addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`, `createdDate`, `modifiedDate`) VALUES (NULL, '3rd Main Road', 'JP Nagar', '3', 'Bangalore', '265281', 'Karnataka', 'India', '2023-07-30 06:55:04', '2023-07-30 06:55:04');
+INSERT INTO `managementsystem`.`address` (`addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`) VALUES ('2nd cross main road', 'Tin factory', '17', 'Bangalore', '879383', 'Karnataka', 'India');
+INSERT INTO `managementsystem`.`address` (`addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`) VALUES ('1st Cross Road', 'Jaya nagar', '12', 'Bangalore', '367223', 'Bangalore', 'India');
+INSERT INTO `managementsystem`.`address` (`addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`) VALUES ('KEB colony', 'Jp Nagar', '2', 'Bangalore', '764733', 'Bangalore', 'India');
+INSERT INTO `managementsystem`.`address` (`addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`) VALUES ('Sai Colony', 'HSR layout', '4', 'Bangalore', '090393', 'Bangalore', 'India');
+INSERT INTO `managementsystem`.`address` (`addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`) VALUES ('Baba Colony', 'Marathahalli', '5', 'Bangalore', '284748', 'Bangalore', 'India');
+INSERT INTO `managementsystem`.`address` (`addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`) VALUES ('Venkateswara Colony', 'KR puram', '1', 'Bangalore', '476457', 'Bangalore', 'India');
+INSERT INTO `managementsystem`.`address` (`addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`) VALUES ('Market road', 'KR market', '6', 'Bangalore', '263547', 'Bangalore', 'India');
+INSERT INTO `managementsystem`.`address` (`addressLine1`, `addressLine2`, `streetNo`, `city`, `pinCode`, `state`, `country`) VALUES ('Food Street', 'Vijaya nagara', '5', 'Bangalore', '247582', 'Bangalore', 'India');
+

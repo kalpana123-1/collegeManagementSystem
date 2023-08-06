@@ -28,17 +28,28 @@
     <h4>Student Personal Details</h4>
     <form action="/add_student" method="POST">
         <label for="first_name">First Name:</label>
-        <input type="text" id="first_name" name="first_name" required>
+        <input type="text" id="first_name" name="first_name" required max="50">
         <label for="last_name">Last Name:</label>
-        <input type="text" id="last_name" name="last_name" required><br><br>
+        <input type="text" id="last_name" name="last_name" required max="50"><br><br>
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" name="email" required max="50">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required max="8">
         <label for="phone">Phone No:</label>
-        <input type="number" id="phone" name="phone" required><br><br>
+        <input type="number" id="phone" name="phone" required max="10"><br><br>
         <label for="blood">Blood Group:</label>
-        <input type="blood" id="blood" name="blood" required>
+        <select name="blood" id="blood">
+            <option value="O+">O+</option>
+            <option value="A+">A+</option>
+            <option value="B+">B+</option>
+            <option value="AB+">AB+</option>
+            <option value="O-">O-</option>
+            <option value="A-">A-</option>
+            <option value="B-">B-</option>
+            <option value="AB-">AB-</option>
+        </select>
         <label for="emergency">Emergency Contact:</label>
-        <input type="number" id="emergency" name="emergency" required><br><br>
+        <input type="number" id="emergency" name="emergency" required max="10"><br><br>
         <h4>Add Address Details Here:</h4>
         <label for="addressLine1">Address Line 1:</label>
         <input type="text" id="addressLine1" name="addressLine1" max="100" required>

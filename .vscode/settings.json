@@ -2,5 +2,10 @@
     "git.ignoreLimitWarning": true,
     "[python]": {
         "editor.defaultFormatter": "ms-python.black-formatter"
-      }
+      },
+      "python.testing.pytestArgs": [
+        "scripts"
+      ],
+      "python.testing.unittestEnabled": false,
+      "python.testing.pytestEnabled": true
 }

@@ -51,5 +51,13 @@ INSERT INTO `managementsystem`.`address` (`addressLine1`, `addressLine2`, `stree
 
 select p.firstName, p.lastName, p.email, p.password1, p.phone, p.dob, p.emergencyContact, p.bloodGroup, ad.addressLine1, ad.addressLine2, ad.streetNo, ad.city, ad.pinCode, ad.state, ad.country from person p left join address ad on p.addressId = ad.id where p.isStudent = 1;
 
+UPDATE `managementsystem`.`courseMode` SET `mainType` = 'Both' WHERE (`id` = '5');
 
+INSERT INTO `managementsystem`.`course` (`courseModeId`, `name`, `duration`, `description`, `totalCredits`, `totalFee`) VALUES ('2', 'Bachelor of Commerce', '3', 'This is about accounts and businesses', '120', '45600');
+INSERT INTO `managementsystem`.`course` (`courseModeId`, `name`, `duration`, `description`, `totalCredits`, `totalFee`) VALUES ('3', 'Bachelor of Science', '4', 'This is about physics, chemistry and maths', '100', '2300');
+INSERT INTO `managementsystem`.`course` (`courseModeId`, `name`, `duration`, `description`, `totalCredits`, `totalFee`) VALUES ('4', 'Bachelor of Arts', '2', 'This is about history, geography and etc.', '40', '45000');
+INSERT INTO `managementsystem`.`course` (`courseModeId`, `name`, `duration`, `description`, `totalCredits`, `totalFee`) VALUES ('5', 'Java Development', '4', 'This is all about building apps with Java including OOPS.', '80', '3200');
+INSERT INTO `managementsystem`.`course` (`courseModeId`, `name`, `duration`, `description`, `totalCredits`, `totalFee`) VALUES ('2', 'Python Development', '1', 'This is all about building apps with Python including OOPS.', '90', '87500');
+INSERT INTO `managementsystem`.`course` (`courseModeId`, `name`, `duration`, `description`, `totalCredits`, `totalFee`) VALUES ('4', 'Power BI', '2', 'This is teaching tool about data management and presentation skills', '100', '9800');
+INSERT INTO `managementsystem`.`course` (`courseModeId`, `name`, `duration`, `description`, `totalCredits`, `totalFee`) VALUES ('3', 'Dev-Ops', '3', 'This is about maintaining applications and dealing with security', '90', '8900');
 

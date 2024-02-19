@@ -13,26 +13,50 @@
             text-align: center;
         }
 
-        a {
+        /* a {
             padding: 0% 2%;
-        }
+        } */
 
         p {
             margin: 20px;
+        }
+
+        .button {
+            background-color: #3065b5;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 16px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            transition-duration: 0.4s;
+            cursor: pointer;
         }
     </style>
 </head>
 
 <body>
     <h1>Welcome to College Management</h1>
-    <a href="/students">View Students</a>
+    <!-- <a href="/students">View Students</a>
     <a href="/add_student">Add Student</a>
     <a href="/staff">View Staff</a>
     <a href="/add_staff">Add Staff</a>
     <a href="/courses" action="/courses" method="POST">View Courses</a>
     <a href="/add_course">Add Course</a>
     <a href="/departments">View Departments</a>
-    <a href="/add_departments">Add Department</a><br><br>
+    <a href="/add_departments">Add Department</a><br><br> -->
+
+    <a href="/add_student"><button class="button">Add Student</button></a>
+    <a href="/students"><button class="button">View Students</button></a>
+    <a href="/add_staff"><button class="button">Add Staff</button></a>
+    <a href="/staff"><button class="button">View Staff</button></a>
+    <a href="/add_course"><button class="button">Add Course</button></a>
+    <a href="/courses"><button class="button">View Courses</button></a>
+    <a href="/add_departments"><button class="button">Add Department</button></a>
+    <a href="/departments"><button class="button">View Departments</button></a>
 
     <h3>Satisfied with the faculty and surroundings.</h3>
     <h4>Placements:</h4>
@@ -50,4 +74,5 @@
     <h4>Other:</h4>
     <p>Campus surroundings are awesome. The campus has greenery around and lake view.</p>
 </body>
+
 </html>

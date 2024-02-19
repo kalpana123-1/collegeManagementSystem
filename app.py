@@ -65,8 +65,6 @@ def getCourseMode():
 
 
 # Add a new course
-
-
 @app.route("/add_course", methods=["GET", "POST"])
 def add_course():
     if request.method == "POST":
@@ -75,9 +73,14 @@ def add_course():
         course_name = details["course_name"]
         description = details["description"]
         credit = details["credit"]
+        credit = int(credit)
         fee = details["fee"]
-        data = [course_name, description, credit, fee]
-        sql = "INSERT INTO course(name, description, totalCredits, totalFee) VALUES (%s, %s, %s, %s)"
+        fee = int(fee)
+        courseType = details["courseType"]
+        courseType = int(courseType)
+        duration = int(details["duration"])
+        data = [(course_name, description, credit, fee, courseType, duration)]
+        sql = "INSERT INTO course(name, description, totalCredits, totalFee, courseModeId, duration) VALUES (%s, %s, %s, %s, %s, %s)"
         mycursor1 = mydb.cursor()
         mycursor1.execute(sql, data)
         return redirect("/courses")
@@ -113,7 +116,7 @@ def add_student():
         # gender = details["gender"]
         emergency = details["emergency"]
         # firstName, lastName, email, password1, phone, dob, emergencyContact, bloodGroup   # noqa: E501
-        detail.push(first_name, last_name, email, password, phone, emergency, blood)
+        detail.append(first_name, last_name, email, password, phone, emergency, blood)
         # address deatils
         addressLine1 = details["addressLine1"]
         addressLine2 = details["addressLine2"]
@@ -122,7 +125,7 @@ def add_student():
         pinCode = details["pinCode"]
         state = details["state"]
         country = details["country"]
-        address.push(addressLine1, addressLine2, streetNo, city, pinCode, state, country)
+        address.append(addressLine1, addressLine2, streetNo, city, pinCode, state, country)
         mycursor1 = mydb.cursor()
         addressResult = mycursor1.execute(
             "INSERT INTO address (addressLine1, addressLine2, streetNo, city, pinCode, state, country) VALUES (%s, %s, %s, %s, %s, %s, %s)",
@@ -162,7 +165,7 @@ def add_staff():
         # gender = details["gender"]
         emergency = details["emergency"]
         # firstName, lastName, email, password1, phone, dob, emergencyContact, bloodGroup   # noqa: E501
-        detail.push(first_name, last_name, email, password, phone, emergency, blood)
+        detail.append(first_name, last_name, email, password, phone, emergency, blood)
         # address deatils
         addressLine1 = details["addressLine1"]
         addressLine2 = details["addressLine2"]
@@ -171,7 +174,7 @@ def add_staff():
         pinCode = details["pinCode"]
         state = details["state"]
         country = details["country"]
-        address.push(addressLine1, addressLine2, streetNo, city, pinCode, state, country)
+        address.append(addressLine1, addressLine2, streetNo, city, pinCode, state, country)
         mycursor1 = mydb.cursor()
         addressResult = mycursor1.execute(
             "INSERT INTO address (addressLine1, addressLine2, streetNo, city, pinCode, state, country) VALUES (%s, %s, %s, %s, %s, %s, %s)",

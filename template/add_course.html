@@ -20,13 +20,30 @@
     <div id="context1"></div>
     <form action="/add_course" method="POST">
         <label for="course_name">Course Name:</label>
-        <input type="text" id="course_name" name="course_name" required><br><br>
+        <input type="text" id="course_name" name="course_name" required max="50" min="3"><br><br>
         <label for="description">description:</label>
-        <input type="text" id="description" name="description" required><br><br>
+        <input type="text" id="description" name="description" required max="100" min="10"><br><br>
         <label for="credit">Total Credits:</label>
-        <input type="text" id="credit" name="credit" min="3" required><br><br>
+        <input type="text" id="credit" name="credit" max="3" min="1" required><br><br>
         <label for="fee">Total Fee:</label>
-        <input type="text" id="fee" name="fee" min="100000" required><br><br>
+        <input type="text" id="fee" name="fee" max="100000" min="100" required><br><br>
+        <label for="duration">Total duration:</label>
+        <input type="text" id="duration" name="duration" max="3" min="1" required><br><br>
+        <!-- Full-time Offline
+        Full-time Online
+        Part-time Offline
+        Part-time Online
+        Hybrid Both -->
+        <label for="courseType">Course Mode: </label>
+        <select name="courseType" id="courseType">
+            <option value="1">Full-time Offline</option>
+            <option value="2">Full-time Online</option>
+            <option value="3">Part-time Offline</option>
+            <option value="4">Part-time Online</option>
+            <option value="5">Hybrid Both</option>
+        </select>
+        <br>
+        <br>
         <input type="submit" value="Add Course">
     </form>
 </body>

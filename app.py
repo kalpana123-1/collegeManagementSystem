@@ -69,7 +69,7 @@ def getCourseMode():
 def add_course():
     if request.method == "POST":
         details = request.form
-        print(details)
+        # print(details)
         course_name = details["course_name"]
         description = details["description"]
         credit = details["credit"]
@@ -79,11 +79,10 @@ def add_course():
         courseType = details["courseType"]
         courseType = int(courseType)
         duration = int(details["duration"])
-        data = [(course_name, description, credit, fee, courseType, duration)]
+        data = [course_name, description, credit, fee, courseType, duration]
         sql = "INSERT INTO course(name, description, totalCredits, totalFee, courseModeId, duration) VALUES (%s, %s, %s, %s, %s, %s)"
-        mycursor1 = mydb.cursor()
-        mycursor1.execute(sql, data)
-        return redirect("/courses")
+        mycursor.execute(sql, data)
+        mydb.commit()
     return render_template("add_course.html")
 
 
@@ -96,7 +95,7 @@ def students():
     )
     students = mycursor1.fetchall()
     mycursor1.close()
-    print(students)
+    # print(students)
     return render_template("students.html", students=students)
 
 
@@ -105,18 +104,6 @@ def students():
 def add_student():
     if request.method == "POST":
         details = request.form
-        address = [], detail = []
-        # student details
-        first_name = details["first_name"]
-        last_name = details["last_name"]
-        email = details["email"]
-        phone = details["phone"]
-        password = details["password"]
-        blood = details["blood"]
-        # gender = details["gender"]
-        emergency = details["emergency"]
-        # firstName, lastName, email, password1, phone, dob, emergencyContact, bloodGroup   # noqa: E501
-        detail.append(first_name, last_name, email, password, phone, emergency, blood)
         # address deatils
         addressLine1 = details["addressLine1"]
         addressLine2 = details["addressLine2"]
@@ -125,18 +112,31 @@ def add_student():
         pinCode = details["pinCode"]
         state = details["state"]
         country = details["country"]
-        address.append(addressLine1, addressLine2, streetNo, city, pinCode, state, country)
-        mycursor1 = mydb.cursor()
-        addressResult = mycursor1.execute(
-            "INSERT INTO address (addressLine1, addressLine2, streetNo, city, pinCode, state, country) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-            (address),
-        )
-        print(addressResult)
-        mycursor1.execute(
-            "INSERT INTO student(firstName, lastName, email, password1, phone, dob, emergencyContact, bloodGroup, isStudent) VALUES (%s, %s, %s, %s, %s, '2000-09-01', %s, %s, '1')",
-            (detail),
-        )
-        return redirect("/students")
+        address = [addressLine1, addressLine2, streetNo, city, pinCode, state, country]
+        sql = "INSERT INTO address (addressLine1, addressLine2, streetNo, city, pinCode, state, country) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        mycursor.execute(sql, address)
+        inserted_id = mycursor.lastrowid
+        # student details
+        first_name = details["first_name"]
+        last_name = details["last_name"]
+        email = details["email"]
+        phone = details["phone"]
+        password = details["password"]
+        blood = details["blood"]
+        emergency = details["emergency"]
+        detail = [
+            first_name,
+            last_name,
+            email,
+            password,
+            phone,
+            emergency,
+            blood,
+            inserted_id,
+        ]
+        sql1 = "INSERT INTO person(firstName, lastName, email, password1, phone, dob, emergencyContact, bloodGroup, isStudent, addressId) VALUES (%s, %s, %s, %s, %s, '2000-09-01', %s, %s, '1', %s)"
+        mycursor.execute(sql1, detail)
+        mydb.commit()
     return render_template("add_student.html")
 
 
@@ -155,17 +155,6 @@ def staff():
 def add_staff():
     if request.method == "POST":
         details = request.form
-        address = [], detail = []
-        first_name = details["first_name"]
-        last_name = details["last_name"]
-        email = details["email"]
-        phone = details["phone"]
-        password = details["password"]
-        blood = details["blood"]
-        # gender = details["gender"]
-        emergency = details["emergency"]
-        # firstName, lastName, email, password1, phone, dob, emergencyContact, bloodGroup   # noqa: E501
-        detail.append(first_name, last_name, email, password, phone, emergency, blood)
         # address deatils
         addressLine1 = details["addressLine1"]
         addressLine2 = details["addressLine2"]
@@ -174,18 +163,31 @@ def add_staff():
         pinCode = details["pinCode"]
         state = details["state"]
         country = details["country"]
-        address.append(addressLine1, addressLine2, streetNo, city, pinCode, state, country)
-        mycursor1 = mydb.cursor()
-        addressResult = mycursor1.execute(
-            "INSERT INTO address (addressLine1, addressLine2, streetNo, city, pinCode, state, country) VALUES (%s, %s, %s, %s, %s, %s, %s)",
-            (address),
-        )
-        print(addressResult)
-        mycursor1.execute(
-            "INSERT INTO student(firstName, lastName, email, password1, phone, dob, emergencyContact, bloodGroup, isStudent) VALUES (%s, %s, %s, %s, %s, '2000-09-01', %s, %s, '1')",
-            (detail),
-        )
-        return redirect("/staff")
+        address = [addressLine1, addressLine2, streetNo, city, pinCode, state, country]
+        sql = "INSERT INTO address (addressLine1, addressLine2, streetNo, city, pinCode, state, country) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        mycursor.execute(sql, address)
+        inserted_id = mycursor.lastrowid
+        # student details
+        first_name = details["first_name"]
+        last_name = details["last_name"]
+        email = details["email"]
+        phone = details["phone"]
+        password = details["password"]
+        blood = details["blood"]
+        emergency = details["emergency"]
+        detail = [
+            first_name,
+            last_name,
+            email,
+            password,
+            phone,
+            emergency,
+            blood,
+            inserted_id,
+        ]
+        sql1 = "INSERT INTO person(firstName, lastName, email, password1, phone, dob, emergencyContact, bloodGroup, isStudent, addressId) VALUES (%s, %s, %s, %s, %s, '2000-09-01', %s, %s, '0', %s)"
+        mycursor.execute(sql1, detail)
+        mydb.commit()
     return render_template("add_staff.html")
 
 

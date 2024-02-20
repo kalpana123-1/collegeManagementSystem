@@ -12,11 +12,46 @@
         #context1 {
             padding-top: 4%;
         }
+
+        input[type=submit] {
+            padding-bottom: 2%;
+        }
+
+        .button,
+        input[type=submit] {
+            background-color: #3065b5;
+            /* Green */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            margin: 2px 1px;
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+
+        .parent {
+            margin: -20px 2px;
+            text-align: center;
+        }
+
+        .child {
+            display: inline-block;
+            padding: 2rem 5rem;
+            vertical-align: middle;
+        }
+
+        .button:hover,
+        input[type=submit]:hover {
+            box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+        }
     </style>
 </head>
 
 <body>
-    <h1>Add Course</h1>
+    <div class="parent">
+        <h1 class="child">Add Course</h1>
+        <a class="child" href="/courses"><button class="button">View Courses</button></a>
+    </div>
     <div id="context1"></div>
     <form action="/add_course" method="POST">
         <label for="course_name">Course Name:</label>
@@ -29,11 +64,6 @@
         <input type="text" id="fee" name="fee" max="100000" min="100" required><br><br>
         <label for="duration">Total duration:</label>
         <input type="text" id="duration" name="duration" max="3" min="1" required><br><br>
-        <!-- Full-time Offline
-        Full-time Online
-        Part-time Offline
-        Part-time Online
-        Hybrid Both -->
         <label for="courseType">Course Mode: </label>
         <select name="courseType" id="courseType">
             <option value="1">Full-time Offline</option>

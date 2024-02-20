@@ -190,6 +190,13 @@ def add_staff():
         mydb.commit()
     return render_template("add_staff.html")
 
+@app.route("/departments")
+def departments():
+    sql = "select d.id, d.name, c.name as courseName, d.description, date(d.createdDate) as createdDate from department d left join course c on d.courseId = c.id group by d.courseId;"
+    mycursor.execute(sql)
+    departments = mycursor.fetchall()
+    return render_template("department.html", departments=departments)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

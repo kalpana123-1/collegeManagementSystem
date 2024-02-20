@@ -65,7 +65,9 @@ create table department(
 id int NOT NULL PRIMARY KEY auto_increment,
 courseId int DEFAULT NULL,
 name varchar(50) DEFAULT NULL,
-subjects json DEFAULT NULL
+description varchar(100) DEFAULT NULL,
+createdDate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+modifiedDate timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
 create table staffeducation(

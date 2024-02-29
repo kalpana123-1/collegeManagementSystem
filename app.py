@@ -65,7 +65,7 @@ def getCourseMode():
 
 
 # Add a new course
-@app.route("/add_course", methods=["GET", "POST"])
+@app.route("/add_course", methods=["POST"])
 def add_course():
     if request.method == "POST":
         details = request.form
@@ -100,7 +100,7 @@ def students():
 
 
 # Add a new student
-@app.route("/add_student", methods=["GET", "POST"])
+@app.route("/add_student", methods=["POST"])
 def add_student():
     if request.method == "POST":
         details = request.form
@@ -151,7 +151,7 @@ def staff():
     return render_template("staff.html", students=students)
 
 
-@app.route("/add_staff", methods=["GET", "POST"])
+@app.route("/add_staff", methods=["POST"])
 def add_staff():
     if request.method == "POST":
         details = request.form
@@ -190,6 +190,7 @@ def add_staff():
         mydb.commit()
     return render_template("add_staff.html")
 
+
 @app.route("/departments")
 def departments():
     sql = "select d.id, d.name, c.name as courseName, d.description, date(d.createdDate) as createdDate from department d left join course c on d.courseId = c.id group by d.courseId;"
@@ -197,6 +198,26 @@ def departments():
     departments = mycursor.fetchall()
     return render_template("department.html", departments=departments)
 
+
+# @app.route("/add_department", methods=["POST"])
+# def add_course():
+#     if request.method == "POST":
+#         details = request.form
+#         # print(details)
+#         course_name = details["course_name"]
+#         description = details["description"]
+#         credit = details["credit"]
+#         credit = int(credit)
+#         fee = details["fee"]
+#         fee = int(fee)
+#         courseType = details["courseType"]
+#         courseType = int(courseType)
+#         duration = int(details["duration"])
+#         data = [course_name, description, credit, fee, courseType, duration]
+#         sql = "INSERT INTO course(name, description, totalCredits, totalFee, courseModeId, duration) VALUES (%s, %s, %s, %s, %s, %s)"
+#         mycursor.execute(sql, data)
+#         mydb.commit()
+#     return render_template("add_course.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

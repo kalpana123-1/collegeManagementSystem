@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
+from flask_cors import CORS
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -13,7 +14,8 @@ print(mydb)
 mycursor = mydb.cursor()
 print(mycursor)
 
-app = Flask(__name__, template_folder="template")
+app = Flask(__name__)
+CORS(app)
 
 
 # Home Page
@@ -91,12 +93,16 @@ def add_course():
 def students():
     mycursor1 = mydb.cursor()
     mycursor1.execute(
-        "select p.firstName, p.lastName, p.email, p.password1, p.phone, p.dob, p.emergencyContact, p.bloodGroup, ad.addressLine1, ad.addressLine2, ad.streetNo, ad.city, ad.pinCode, ad.state, ad.country from person p left join address ad on p.addressId = ad.id where p.isStudent = 1"
+        "select p.id, p.firstName, p.lastName, p.email, p.password1, p.phone, p.dob, p.emergencyContact, p.bloodGroup, ad.addressLine1, ad.addressLine2, ad.streetNo, ad.city, ad.pinCode, ad.state, ad.country from person p left join address ad on p.addressId = ad.id where p.isStudent = 1"
     )
     students = mycursor1.fetchall()
     mycursor1.close()
     # print(students)
-    return render_template("students.html", students=students)
+    res = {
+        "data": students,
+        "code": 200
+    }
+    return jsonify(res)
 
 
 # Add a new student

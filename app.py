@@ -18,25 +18,35 @@ app = Flask(__name__)
 CORS(app)
 
 
-# Home Page
-@app.route("/")
-def login():
-    return render_template("login.html")
+# # Home Page
+# @app.route("/")
+# def login():
+#     return render_template("login.html")
 
 
 # Login Page
 @app.route("/login", methods=["POST"])
 def login_post():
-    username = request.form["username"]
-    password = request.form["password"]
+    print(request)
+    username = request.form.get("username")
+    password = request.form.get("password")
     data = []
     data.append(username)
     data.append(password)
     myresult = userValidate(data)
     if len(myresult) > 0:
-        return render_template("index.html", myresult=myresult)
+        res = {
+            "data": myresult,
+            "code": 200
+        }
+        return jsonify(res)
     else:
-        return render_template("login.html", myresult=myresult)
+        res = {
+            "data": [],
+            "code": 400,
+            "message": "Bad Request"
+        }
+        return res
 
 
 def userValidate(data):

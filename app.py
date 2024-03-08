@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, jsonify
 from flask_cors import CORS
+from constant_values import *
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -27,25 +28,35 @@ CORS(app)
 # Login Page
 @app.route("/login", methods=["POST"])
 def login_post():
-    print(request)
+    # print(request)
     username = request.form.get("username")
     password = request.form.get("password")
-    data = []
-    data.append(username)
-    data.append(password)
-    myresult = userValidate(data)
-    if len(myresult) > 0:
-        res = {
-            "data": myresult,
-            "code": 200
-        }
-        return jsonify(res)
+    if len(username) > 0 and len(password) > 0: 
+        data = []
+        data.append(username)
+        data.append(password)
+        myresult = userValidate(data)
+        if len(myresult) > 0:
+            res = {
+                "data": myresult,
+                "status": SUCCESS,
+                "code": SUCCESS_CODE,
+                "message": "Logged in Successfully"
+            }
+            return jsonify(res)
+        else:
+            res = {
+                "status": FAILED,
+                "code": DATA_NOT_FOUND_CODE,
+                "message": "Invalid request. Check your username and password."
+            }
+            return res
     else:
         res = {
-            "data": [],
-            "code": 400,
-            "message": "Bad Request"
-        }
+                "status": FAILED,
+                "code": BAD_REQUEST_CODE,
+                "message": "Please enter all the values."
+            }
         return res
 
 

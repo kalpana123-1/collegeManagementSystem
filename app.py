@@ -48,13 +48,13 @@ def login_post():
             res = {
                 "status": FAILED,
                 "code": DATA_NOT_FOUND_CODE,
-                "message": "Invalid request. Check your username and password."
+                "message": "Invalid request. Check your email and password."
             }
             return res
     else:
         res = {
                 "status": FAILED,
-                "code": BAD_REQUEST_CODE,
+                "code": BAD_REQUEST,
                 "message": "Please enter all the values."
             }
         return res
@@ -76,7 +76,13 @@ def courses():
         "select c.id, c.name, c.description, cm.name as courseModeName, cm.mainType as courseMainType, c.totalCredits, c.totalFee, date(c.createdDate) from course c left join courseMode cm on c.courseModeId = cm.id;"
     )
     courses = mycursor1.fetchall()
-    return render_template("course.html", courses=courses)
+    res = {
+        "data": courses,
+        "status": SUCCESS,
+        "code": SUCCESS_CODE,
+        "message": "Fetched Details Successfully"
+    }
+    return jsonify(res)
 
 
 def getCourseMode():
@@ -90,23 +96,21 @@ def getCourseMode():
 # Add a new course
 @app.route("/add_course", methods=["POST"])
 def add_course():
-    if request.method == "POST":
-        details = request.form
-        # print(details)
-        course_name = details["course_name"]
-        description = details["description"]
-        credit = details["credit"]
-        credit = int(credit)
-        fee = details["fee"]
-        fee = int(fee)
-        courseType = details["courseType"]
-        courseType = int(courseType)
-        duration = int(details["duration"])
-        data = [course_name, description, credit, fee, courseType, duration]
-        sql = "INSERT INTO course(name, description, totalCredits, totalFee, courseModeId, duration) VALUES (%s, %s, %s, %s, %s, %s)"
-        mycursor.execute(sql, data)
-        mydb.commit()
-    return render_template("add_course.html")
+    details = request.form
+    # print(details)
+    course_name = details["course_name"]
+    description = details["description"]
+    credit = details["credit"]
+    credit = int(credit)
+    fee = details["fee"]
+    fee = int(fee)
+    courseType = details["courseType"]
+    courseType = int(courseType)
+    duration = int(details["duration"])
+    data = [course_name, description, credit, fee, courseType, duration]
+    sql = "INSERT INTO course(name, description, totalCredits, totalFee, courseModeId, duration) VALUES (%s, %s, %s, %s, %s, %s)"
+    mycursor.execute(sql, data)
+    mydb.commit()
 
 
 # Display all students

@@ -53,10 +53,10 @@ def login_post():
             return res
     else:
         res = {
-                "status": FAILED,
-                "code": BAD_REQUEST,
-                "message": "Please enter all the values."
-            }
+            "status": FAILED,
+            "code": BAD_REQUEST,
+            "message": "Please enter all the values."
+        }
         return res
 
 
@@ -76,13 +76,16 @@ def courses():
         "select c.id, c.name, c.description, cm.name as courseModeName, cm.mainType as courseMainType, c.totalCredits, c.totalFee, date(c.createdDate) from course c left join courseMode cm on c.courseModeId = cm.id;"
     )
     courses = mycursor1.fetchall()
-    res = {
+    if len(courses) > 0:
+        res = {
         "data": courses,
         "status": SUCCESS,
         "code": SUCCESS_CODE,
         "message": "Fetched Details Successfully"
-    }
-    return jsonify(res)
+        }
+        return jsonify(res)
+    else:
+
 
 
 def getCourseMode():
@@ -160,32 +163,40 @@ def add_student():
         pinCode = details["pinCode"]
         state = details["state"]
         country = details["country"]
-        if len(addressLine1) > 0 and len(addressLine2) > 0 and len(streetNo) > 0 and len(city) and len(pinCode) and len(state) and len()
-        address = [addressLine1, addressLine2, streetNo, city, pinCode, state, country]
-        sql = "INSERT INTO address (addressLine1, addressLine2, streetNo, city, pinCode, state, country) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-        mycursor.execute(sql, address)
-        inserted_id = mycursor.lastrowid
-        # student details
-        first_name = details["first_name"]
-        last_name = details["last_name"]
-        email = details["email"]
-        phone = details["phone"]
-        password = details["password"]
-        blood = details["blood"]
-        emergency = details["emergency"]
-        detail = [
-            first_name,
-            last_name,
-            email,
-            password,
-            phone,
-            emergency,
-            blood,
-            inserted_id,
-        ]
-        sql1 = "INSERT INTO person(firstName, lastName, email, password1, phone, dob, emergencyContact, bloodGroup, isStudent, addressId) VALUES (%s, %s, %s, %s, %s, '2000-09-01', %s, %s, '1', %s)"
-        mycursor.execute(sql1, detail)
-        mydb.commit()
+        if len(addressLine1) > 0 and len(addressLine2) > 0 and len(streetNo) > 0 and len(city) and len(pinCode) and len(state) and len(country):
+            address = [addressLine1, addressLine2, streetNo, city, pinCode, state, country]
+            sql = "INSERT INTO address (addressLine1, addressLine2, streetNo, city, pinCode, state, country) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            mycursor.execute(sql, address)
+            inserted_id = mycursor.lastrowid
+            # student details
+            first_name = details["first_name"]
+            last_name = details["last_name"]
+            email = details["email"]
+            phone = details["phone"]
+            password = details["password"]
+            blood = details["blood"]
+            emergency = details["emergency"]
+            detail = [
+                first_name,
+                last_name,
+                email,
+                password,
+                phone,
+                emergency,
+                blood,
+                inserted_id,
+            ]
+            sql1 = "INSERT INTO person(firstName, lastName, email, password1, phone, dob, emergencyContact, bloodGroup, isStudent, addressId) VALUES (%s, %s, %s, %s, %s, '2000-09-01', %s, %s, '1', %s)"
+            mycursor.execute(sql1, detail)
+            mydb.commit()
+        else: 
+            res = {
+                "status": FAILED,
+                "code": BAD_REQUEST,
+                "message": "Please enter all the values."
+            }
+            return res
+
     # return render_template("add_student.html")
 
 

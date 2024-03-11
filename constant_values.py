@@ -8,3 +8,5 @@ REQUEST_FAILED_CODE = 500
 # Status message related constants
 SUCCESS = "Success"
 FAILED = "Failed"
+BAD_REQUEST = "Bad Request"
+SERVER_ERROR = "Internal Server Error"

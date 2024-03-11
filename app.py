@@ -48,13 +48,13 @@ def login_post():
             res = {
                 "status": FAILED,
                 "code": DATA_NOT_FOUND_CODE,
-                "message": "Invalid request. Check your username and password."
+                "message": "Invalid request. Check your email and password."
             }
             return res
     else:
         res = {
                 "status": FAILED,
-                "code": BAD_REQUEST_CODE,
+                "code": BAD_REQUEST,
                 "message": "Please enter all the values."
             }
         return res
@@ -76,7 +76,13 @@ def courses():
         "select c.id, c.name, c.description, cm.name as courseModeName, cm.mainType as courseMainType, c.totalCredits, c.totalFee, date(c.createdDate) from course c left join courseMode cm on c.courseModeId = cm.id;"
     )
     courses = mycursor1.fetchall()
-    return render_template("course.html", courses=courses)
+    res = {
+        "data": courses,
+        "status": SUCCESS,
+        "code": SUCCESS_CODE,
+        "message": "Fetched Details Successfully"
+    }
+    return jsonify(res)
 
 
 def getCourseMode():
@@ -90,23 +96,36 @@ def getCourseMode():
 # Add a new course
 @app.route("/add_course", methods=["POST"])
 def add_course():
-    if request.method == "POST":
-        details = request.form
-        # print(details)
-        course_name = details["course_name"]
-        description = details["description"]
-        credit = details["credit"]
-        credit = int(credit)
-        fee = details["fee"]
-        fee = int(fee)
-        courseType = details["courseType"]
-        courseType = int(courseType)
-        duration = int(details["duration"])
+    details = request.form
+    # print(details)
+    course_name = details["course_name"]
+    description = details["description"]
+    credit = details["credit"]
+    credit = int(credit)
+    fee = details["fee"]
+    fee = int(fee)
+    courseType = details["courseType"]
+    courseType = int(courseType)
+    duration = int(details["duration"])
+    if len(course_name) > 0 and len(description) > 0 and credit > 0 and len(courseType) > 0 and duration > 0:
         data = [course_name, description, credit, fee, courseType, duration]
         sql = "INSERT INTO course(name, description, totalCredits, totalFee, courseModeId, duration) VALUES (%s, %s, %s, %s, %s, %s)"
         mycursor.execute(sql, data)
         mydb.commit()
-    return render_template("add_course.html")
+        res = {
+            "status": SUCCESS,
+            "code": SUCCESS_CODE,
+            "message": "Created Course Successfully"
+        }
+        return jsonify(res)
+    else:
+        res = {
+                "status": FAILED,
+                "code": BAD_REQUEST,
+                "message": "Please enter all the values."
+            }
+        return res
+        
 
 
 # Display all students
@@ -121,7 +140,9 @@ def students():
     # print(students)
     res = {
         "data": students,
-        "code": 200
+        "status": SUCCESS,
+        "code": SUCCESS_CODE,
+        "message": "Fetched Details Successfully"
     }
     return jsonify(res)
 
@@ -139,6 +160,7 @@ def add_student():
         pinCode = details["pinCode"]
         state = details["state"]
         country = details["country"]
+        if len(addressLine1) > 0 and len(addressLine2) > 0 and len(streetNo) > 0 and len(city) and len(pinCode) and len(state) and len()
         address = [addressLine1, addressLine2, streetNo, city, pinCode, state, country]
         sql = "INSERT INTO address (addressLine1, addressLine2, streetNo, city, pinCode, state, country) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         mycursor.execute(sql, address)
@@ -164,7 +186,7 @@ def add_student():
         sql1 = "INSERT INTO person(firstName, lastName, email, password1, phone, dob, emergencyContact, bloodGroup, isStudent, addressId) VALUES (%s, %s, %s, %s, %s, '2000-09-01', %s, %s, '1', %s)"
         mycursor.execute(sql1, detail)
         mydb.commit()
-    return render_template("add_student.html")
+    # return render_template("add_student.html")
 
 
 @app.route("/staff")

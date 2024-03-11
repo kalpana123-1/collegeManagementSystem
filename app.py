@@ -107,10 +107,25 @@ def add_course():
     courseType = details["courseType"]
     courseType = int(courseType)
     duration = int(details["duration"])
-    data = [course_name, description, credit, fee, courseType, duration]
-    sql = "INSERT INTO course(name, description, totalCredits, totalFee, courseModeId, duration) VALUES (%s, %s, %s, %s, %s, %s)"
-    mycursor.execute(sql, data)
-    mydb.commit()
+    if len(course_name) > 0 and len(description) > 0 and credit > 0 and len(courseType) > 0 and duration > 0:
+        data = [course_name, description, credit, fee, courseType, duration]
+        sql = "INSERT INTO course(name, description, totalCredits, totalFee, courseModeId, duration) VALUES (%s, %s, %s, %s, %s, %s)"
+        mycursor.execute(sql, data)
+        mydb.commit()
+        res = {
+            "status": SUCCESS,
+            "code": SUCCESS_CODE,
+            "message": "Created Course Successfully"
+        }
+        return jsonify(res)
+    else:
+        res = {
+                "status": FAILED,
+                "code": BAD_REQUEST,
+                "message": "Please enter all the values."
+            }
+        return res
+        
 
 
 # Display all students
@@ -125,7 +140,9 @@ def students():
     # print(students)
     res = {
         "data": students,
-        "code": 200
+        "status": SUCCESS,
+        "code": SUCCESS_CODE,
+        "message": "Fetched Details Successfully"
     }
     return jsonify(res)
 
@@ -143,6 +160,7 @@ def add_student():
         pinCode = details["pinCode"]
         state = details["state"]
         country = details["country"]
+        if len(addressLine1) > 0 and len(addressLine2) > 0 and len(streetNo) > 0 and len(city) and len(pinCode) and len(state) and len()
         address = [addressLine1, addressLine2, streetNo, city, pinCode, state, country]
         sql = "INSERT INTO address (addressLine1, addressLine2, streetNo, city, pinCode, state, country) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         mycursor.execute(sql, address)
@@ -168,7 +186,7 @@ def add_student():
         sql1 = "INSERT INTO person(firstName, lastName, email, password1, phone, dob, emergencyContact, bloodGroup, isStudent, addressId) VALUES (%s, %s, %s, %s, %s, '2000-09-01', %s, %s, '1', %s)"
         mycursor.execute(sql1, detail)
         mydb.commit()
-    return render_template("add_student.html")
+    # return render_template("add_student.html")
 
 
 @app.route("/staff")

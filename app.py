@@ -76,15 +76,13 @@ def courses():
         "select c.id, c.name, c.description, cm.name as courseModeName, cm.mainType as courseMainType, c.totalCredits, c.totalFee, date(c.createdDate) from course c left join courseMode cm on c.courseModeId = cm.id;"
     )
     courses = mycursor1.fetchall()
-    if len(courses) > 0:
-        res = {
+    res = {
         "data": courses,
         "status": SUCCESS,
         "code": SUCCESS_CODE,
         "message": "Fetched Details Successfully"
         }
-        return jsonify(res)
-    else:
+    return jsonify(res)
 
 
 

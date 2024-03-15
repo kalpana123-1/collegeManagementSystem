@@ -22,7 +22,7 @@ function Login() {
     }
 
     axios({
-      method: "post",
+      method: "get",
       url: "http://127.0.0.1:5000/login",
       body: { username: setPassword, password: setPassword },
     })

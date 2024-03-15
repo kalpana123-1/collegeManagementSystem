@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, jsonify
 from flask_cors import CORS
-from constant_values import *
 import mysql.connector
+from constant_values import *
 
 mydb = mysql.connector.connect(
     host="127.0.0.1",
@@ -26,38 +26,36 @@ CORS(app)
 
 
 # Login Page
-@app.route("/login", methods=["POST"])
-def login_post():
-    # print(request)
+@app.route("/login", methods=["GET"])
+def login_get():
     username = request.form.get("username")
     password = request.form.get("password")
-    if len(username) > 0 and len(password) > 0: 
-        data = []
-        data.append(username)
-        data.append(password)
+    # More Pythonic way to check for non-empty strings
+    if username and password:
+        data = [username, password]
         myresult = userValidate(data)
-        if len(myresult) > 0:
+        if myresult:
             res = {
                 "data": myresult,
                 "status": SUCCESS,
                 "code": SUCCESS_CODE,
                 "message": "Logged in Successfully"
             }
-            return jsonify(res)
+            return jsonify(res)  # Using jsonify for consistency
         else:
             res = {
                 "status": FAILED,
                 "code": DATA_NOT_FOUND_CODE,
                 "message": "Invalid request. Check your email and password."
             }
-            return res
+            return jsonify(res)  # Modified to use jsonify
     else:
         res = {
             "status": FAILED,
             "code": BAD_REQUEST,
             "message": "Please enter all the values."
         }
-        return res
+        return jsonify(res)
 
 
 def userValidate(data):
@@ -105,11 +103,11 @@ def add_course():
     credit = int(credit)
     fee = details["fee"]
     fee = int(fee)
-    courseType = details["courseType"]
-    courseType = int(courseType)
+    course_type = details["courseType"]
+    course_type = int(course_type)
     duration = int(details["duration"])
-    if len(course_name) > 0 and len(description) > 0 and credit > 0 and len(courseType) > 0 and duration > 0:
-        data = [course_name, description, credit, fee, courseType, duration]
+    if len(course_name) > 0 and len(description) > 0 and credit > 0 and len(course_type) > 0 and duration > 0:
+        data = [course_name, description, credit, fee, course_type, duration]
         sql = "INSERT INTO course(name, description, totalCredits, totalFee, courseModeId, duration) VALUES (%s, %s, %s, %s, %s, %s)"
         mycursor.execute(sql, data)
         mydb.commit()
@@ -154,15 +152,15 @@ def add_student():
     if request.method == "POST":
         details = request.form
         # address deatils
-        addressLine1 = details["addressLine1"]
-        addressLine2 = details["addressLine2"]
-        streetNo = details["streetNo"]
+        address_line1 = details["addressLine1"]
+        address_line2 = details["addressLine2"]
+        street_no = details["streetNo"]
         city = details["city"]
-        pinCode = details["pinCode"]
+        pin_code = details["pinCode"]
         state = details["state"]
         country = details["country"]
-        if len(addressLine1) > 0 and len(addressLine2) > 0 and len(streetNo) > 0 and len(city) and len(pinCode) and len(state) and len(country):
-            address = [addressLine1, addressLine2, streetNo, city, pinCode, state, country]
+        if len(address_line1) > 0 and len(address_line2) > 0 and len(street_no) > 0 and len(city) and len(pin_code) and len(state) and len(country):
+            address = [address_line1, address_line2, street_no, city, pin_code, state, country]
             sql = "INSERT INTO address (addressLine1, addressLine2, streetNo, city, pinCode, state, country) VALUES (%s, %s, %s, %s, %s, %s, %s)"
             mycursor.execute(sql, address)
             inserted_id = mycursor.lastrowid
@@ -204,9 +202,9 @@ def staff():
     mycursor1.execute(
         "select p.firstName, p.lastName, p.email, p.password1, p.phone, p.dob, p.emergencyContact, p.bloodGroup, ad.addressLine1, ad.addressLine2, ad.streetNo, ad.city, ad.pinCode, ad.state, ad.country from person p left join address ad on p.addressId = ad.id where p.isStudent = 0"
     )
-    students = mycursor1.fetchall()
+    student_list = mycursor1.fetchall()
     mycursor1.close()
-    return render_template("staff.html", students=students)
+    return render_template("staff.html", students=student_list)
 
 
 @app.route("/add_staff", methods=["POST"])
@@ -214,14 +212,14 @@ def add_staff():
     if request.method == "POST":
         details = request.form
         # address deatils
-        addressLine1 = details["addressLine1"]
-        addressLine2 = details["addressLine2"]
-        streetNo = details["streetNo"]
+        address_line1 = details["addressLine1"]
+        address_line2 = details["addressLine2"]
+        street_no = details["streetNo"]
         city = details["city"]
-        pinCode = details["pinCode"]
+        pin_code = details["pinCode"]
         state = details["state"]
         country = details["country"]
-        address = [addressLine1, addressLine2, streetNo, city, pinCode, state, country]
+        address = [address_line1, address_line2, street_no, city, pin_code, state, country]
         sql = "INSERT INTO address (addressLine1, addressLine2, streetNo, city, pinCode, state, country) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         mycursor.execute(sql, address)
         inserted_id = mycursor.lastrowid
@@ -253,8 +251,8 @@ def add_staff():
 def departments():
     sql = "select d.id, d.name, c.name as courseName, d.description, date(d.createdDate) as createdDate from department d left join course c on d.courseId = c.id group by d.courseId;"
     mycursor.execute(sql)
-    departments = mycursor.fetchall()
-    return render_template("department.html", departments=departments)
+    department_list = mycursor.fetchall()
+    return render_template("department.html", departments=department_list)
 
 
 # @app.route("/add_department", methods=["POST"])

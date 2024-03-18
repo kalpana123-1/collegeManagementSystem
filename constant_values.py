@@ -1,4 +1,4 @@
-# Status code related constants
+"""Status code related constants"""
 SUCCESS_CODE = 200
 BAD_REQUEST_CODE = 400
 DATA_NOT_FOUND_CODE = 401

@@ -20,7 +20,6 @@ The College Management System is a comprehensive solution designed to streamline
     - [Department Management](#department-management)
     - [Library Management](#library-management)
 4. [Contributing](#contributing)
-5. [License](#license)
 
 ## Installation
 To install the College Management System, follow these steps:
@@ -95,9 +94,6 @@ We welcome contributions from the community. To contribute:
     git push origin feature-name
     ```
 5. Create a Pull Request on GitHub.
-
-## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
 

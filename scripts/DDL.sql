@@ -136,3 +136,8 @@ id int NOT NULL PRIMARY KEY auto_increment,
 personId int DEFAULT NULL,
 createdDate timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+alter table course drop column syllabus;
+alter table course add column syllabus varchar(100);
+alter table department drop column subjects;
+alter table department add column description varchar(100);
